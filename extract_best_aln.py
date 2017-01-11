@@ -36,9 +36,9 @@ def find_best_aln(xmapF,xmapF_out):
 			else:
 				outfile.write(line)
 
-	if scoreToXmapID:
-		for line in scoreToXmapID[bestScore]:
-			outfile.write(line)
+		if scoreToXmapID:
+			for line in scoreToXmapID[bestScore]:
+				outfile.write(line)
 
 
 if __name__ == '__main__':
