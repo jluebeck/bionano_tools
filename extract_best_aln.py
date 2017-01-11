@@ -16,7 +16,7 @@ import argparse
 def find_best_aln(xmapF,xmapF_out):
 	bestScore = 0
 	scoreToXmapID = {}
-	with open(xmapF) as infile, open(xmapF_out,'w') as outfile::
+	with open(xmapF) as infile, open(xmapF_out,'w') as outfile:
 		for line in infile:
 			if line.startswith("#h"):
 				head = line.rstrip().rsplit("\t")[1:]
