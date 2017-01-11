@@ -19,7 +19,7 @@ def find_best_aln(xmapF,xmapF_out):
 	with open(xmapF) as infile, open(xmapF_out,'w') as outfile:
 		for line in infile:
 			if line.startswith("#h"):
-				head = line.rstrip().rsplit("\t")[1:]
+				head = line.rstrip().rsplit("\t")
 
 			if not line.startswith("#"):
 				fields = line.rsplit("\t")
