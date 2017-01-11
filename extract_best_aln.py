@@ -52,5 +52,5 @@ if __name__ == '__main__':
 	if not outname:
 		outname = args.input[:args.input.index(".xmap")] + "_BESTALN" + args.input[args.input.index(".xmap"):]
 
-	extract_cmap(args.input,outname,args.mapID)
+	find_best_aln(args.input,outname)
  
