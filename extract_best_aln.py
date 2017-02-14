@@ -49,6 +49,11 @@ def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 						queryToBestLine[currQueryID] = set()
 						queryToBestLine[currQueryID].add(line)
 
+					elif currScore == queryToBestScore[currQueryID]:
+						queryToBestLine[currQueryID].add(line)
+
+
+
 				if eachRef:
 					if currRefID not in refToBestScore:
 						refToBestScore[currRefID] = 0
@@ -58,6 +63,8 @@ def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 						refToBestLine[currRefID] = set()
 						refToBestLine[currRefID].add(line)
 
+					elif currScore == refToBestScore[currRefID]:
+						refToBestLine[currRefID].add(line)
 
 				scoreToXmapID[currScore].add(line)
 
