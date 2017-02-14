@@ -13,11 +13,13 @@ import sys
 import os
 import argparse
 
-def find_best_aln(xmapF,xmapF_out,eachMap):
+def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 	bestScore = 0
 	scoreToXmapID = {}
-	xmapIDToBestScore = {}
-	xmapIDToBestLine = {}
+	queryToBestScore = {}
+	queryToBestLine = {}
+	refToBestScore = {}
+	refToBestLine = {}
 
 	with open(xmapF) as infile, open(xmapF_out,'w') as outfile:
 		for line in infile:
@@ -30,6 +32,7 @@ def find_best_aln(xmapF,xmapF_out,eachMap):
 				fDict = dict(zip(head,fields))
 				currScore = float(fDict['Confidence'])
 				currQueryID = fDict['QryContigID']
+				currRefID = fDict['RefContigID']
 
 				if currScore > bestScore:
 					bestScore = currScore
@@ -37,13 +40,24 @@ def find_best_aln(xmapF,xmapF_out,eachMap):
 				if currScore not in scoreToXmapID:
 					scoreToXmapID[currScore] = set()
 
-				if currQueryID not in xmapIDToBestScore:
-					xmapIDToBestScore[currQueryID] = 0
+				if eachQry:
+					if currQueryID not in queryToBestScore:
+						queryToBestScore[currQueryID] = 0
 
-				if currScore > xmapIDToBestScore[currQueryID]:
-					xmapIDToBestScore[currQueryID] = currScore
-					xmapIDToBestLine[currQueryID] = set()
-					xmapIDToBestLine[currQueryID].add(line)
+					if currScore > queryToBestScore[currQueryID]:
+						queryToBestScore[currQueryID] = currScore
+						queryToBestLine[currQueryID] = set()
+						queryToBestLine[currQueryID].add(line)
+
+				if eachRef:
+					if currQueryID not in refToBestScore:
+						refToBestScore[currRefID] = 0
+
+					if currScore > refToBestScore[currRefID]:
+						refToBestScore[currRefID] = currScore
+						refToBestLine[currRefID] = set()
+						refToBestLine[currRefID].add(line)
+
 
 				scoreToXmapID[currScore].add(line)
 
@@ -51,16 +65,19 @@ def find_best_aln(xmapF,xmapF_out,eachMap):
 				outfile.write(line)
 
 		if scoreToXmapID:
-			if not eachMap:
+			if not eachQry and not eachRef:
 				for line in scoreToXmapID[bestScore]:
 					outfile.write(line)
 
-			else:
-				for queryID_lines in xmapIDToBestLine.values():
+			if eachRef:
+				for queryID_lines in refToBestLine.values():
 					for line in queryID_lines:
 						outfile.write(line)
 
-
+			if eachQry:
+				for queryID_lines in qryToBestLine.values():
+					for line in queryID_lines:
+						outfile.write(line)
 
 if __name__ == '__main__':
 	#Parses the command line arguments
@@ -68,11 +85,13 @@ if __name__ == '__main__':
 	parser.add_argument("-i", "--input", help="name of input file",required=True)
 	parser.add_argument("-o", "--outname", help="extracted file name (default to [inputname]_BESTALN.xmap")
 	parser.add_argument("--each_query",help="extract the best alignment for each query CMAP aligned, default false",action='store_true')
+	parser.add_argument("--each_ref",help="extract the best alignment for each ref CMAP aligned, default false",action='store_true')
 	args = parser.parse_args()
 
 	outname = args.outname
 	if not outname:
 		outname = args.input[:args.input.index(".xmap")] + "_BESTALN" + args.input[args.input.index(".xmap"):]
 
-	find_best_aln(args.input,outname,args.each_query)
+
+	find_best_aln(args.input,outname,args.each_query,args.each_ref)
  
