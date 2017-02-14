@@ -82,7 +82,7 @@ def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 						outfile.write(line)
 
 			if eachQry:
-				for queryID_lines in qryToBestLine.values():
+				for queryID_lines in queryToBestLine.values():
 					for line in queryID_lines:
 						outfile.write(line)
 
