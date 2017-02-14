@@ -50,7 +50,7 @@ def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 						queryToBestLine[currQueryID].add(line)
 
 				if eachRef:
-					if currQueryID not in refToBestScore:
+					if currRefID not in refToBestScore:
 						refToBestScore[currRefID] = 0
 
 					if currScore > refToBestScore[currRefID]:
