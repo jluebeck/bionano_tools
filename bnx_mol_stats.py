@@ -33,7 +33,7 @@ def parseBNXFile(fName):
 #plot it out
 def plot_lens(molD):
 	lens = molD.values()
-	print np.mean(lens),np.sd(lens)
+	print np.mean(lens),np.std(lens)
 	fig = plt.figure()
 	plt.hist(lens,bins=40)
 	plt.savefig(outName + "_mol_len_hist.png",dpi=300)
@@ -62,5 +62,5 @@ if __name__ == "__main__":
 	outName = args.outname
 
 	molD = parseBNXFile(args.bnx)
-	
+
 	plot_lens(molD)
