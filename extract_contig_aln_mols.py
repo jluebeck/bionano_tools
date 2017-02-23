@@ -1,6 +1,13 @@
+#!/usr/bin/env python
+
+"""
+Jens Luebeck
+UC San Diego, Bioinformatics & Systems Biology
+jluebeck@ucsd.edu
+"""
+
 import sys
 import os
-import subprocess
 import argparse
 
 #parses map file and extracts molecule ids aligning to particular coordinates
