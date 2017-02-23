@@ -57,6 +57,7 @@ if __name__ == "__main__":
 	parser.add_argument("--coords",help="input chromosome cordinates, formatted as 'start-end', \
     	default entire chromosome")
 	parser.add_argument("--bnx",help="merged BNX file",required=True)
+	parser.add_argument("-o","--outname",help="output filename prefix",default="")
 	args = parser.parse_args()
 
 	if not args.coords:
@@ -73,7 +74,9 @@ if __name__ == "__main__":
 	else:
 		region = args.coords
 
-	outName = "extracted_molecules_" + args.contig + "_" + region + ".bnx"
+	if args.outname:
+		args.outname+="_"
+	outName = args.outname + "extracted_molecules_" + args.contig + "_" + region + ".bnx"
 
 	print "Parsing .MAP"
 	moleculeS = parseMapFile(args.map,args.contig,start,end)
