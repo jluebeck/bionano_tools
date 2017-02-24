@@ -23,7 +23,9 @@ def parseBNXFile(fName):
 			if line.startswith("#0h"):
 					head = line.rstrip().rsplit()[1:]
 			elif line.startswith("0"):
-				fields = line.rstrip().rsplit()[1:]
+				fields = line.rstrip().rsplit()
+				#print head
+				#print fields
 				fD = dict(zip(head,fields))
 				#get the chrom
 				moleculeD[fD["MoleculeID"]] = float(fD["Length"])
