@@ -300,8 +300,8 @@ if __name__ == '__main__':
 
     outname = args.outname
 
-    cycleNumber = "1"
-    xmapID = "2"
+    cycleNumber = "3"
+    xmapID = "24"
 
     ref_cmaps,ref_contigCovs = parse_cmap(args.ref)
     query_cmaps,query_contigCovs = parse_cmap(args.query)
