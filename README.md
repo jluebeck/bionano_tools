@@ -1,3 +1,6 @@
+## BioNano tools
+# Assorted scripts for working with BioNano data.
+
 ```
 convert_cmap_version.py
 Converts between CMAP versions. Outputs a new CMAP
@@ -10,7 +13,8 @@ Extracts the single best alignment[s] from an XMAP. Writes a new CMAP.
 Usage: python extract_best_aln.py -i input.xmap [-o (optional output XMAP filename)] [--each_query (flag to extract best alignment for each query)] [--each_ref (flag to extract best alignment for each reference entry)]
 ```
 
-```extract_cmap.py
+```
+extract_cmap.py
 Extract a single CMAP given ID. Writes a new CMAP.
 Usage: python extract_cmap.py -i input.cmap -c contig_id [-o optional output CMAP filename]
 ```
