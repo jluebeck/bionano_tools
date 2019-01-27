@@ -1,5 +1,5 @@
 ## BioNano tools
-# Assorted scripts for working with BioNano data.
+### Assorted scripts for working with BioNano data.
 
 ```
 convert_cmap_version.py
