@@ -61,8 +61,8 @@ if __name__ == "__main__":
     	at given reference genome positions")
 	parser.add_argument("-m","--map",help="pileup map file",required=True)
 	parser.add_argument("-c","--contig",help="contig ID to get molecules from",required=True)
-	parser.add_argument("--coords",help="input chromosome cordinates, formatted as 'start-end', \
-    	default entire chromosome")
+	parser.add_argument("--coords",help="input contig cordinates, formatted as 'start-end', \
+    	default entire contig")
 	parser.add_argument("--bnx",help="merged BNX file",required=True)
 	parser.add_argument("-o","--outname",help="output filename prefix",default="")
 	args = parser.parse_args()

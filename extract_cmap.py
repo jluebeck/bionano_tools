@@ -27,7 +27,7 @@ if __name__ == '__main__':
 	#Parses the command line arguments
 	parser = argparse.ArgumentParser(description="Extract CMAP from CMAP file")
 	parser.add_argument("-i", "--input", help="name of input file",required=True)
-	parser.add_argument("-m", "--mapID", help="CMAP ID number",required=True)	
+	parser.add_argument("-c", "--contig", help="CMAP ID number",required=True)	
 	parser.add_argument("-o", "--outname", help="extracted file name (default to [inputname]_[cmapID].cmap")
 	args = parser.parse_args()
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 	if not outname:
 		#infName = args.input.rsplit("/")[-1].rsplit(".")[0]
 		#outname = "/".join(args.input.rsplit("/")[:-1]) + "/" + infName + "_CMAPID" + args.mapID + ".cmap"
-		outname = args.input[:args.input.index(".cmap")] + "_CMAPID" + args.mapID + args.input[args.input.index(".cmap"):]
+		outname = args.input[:args.input.index(".cmap")] + "_CMAPID" + args.contig + args.input[args.input.index(".cmap"):]
 
 	extract_cmap(args.input,outname,args.mapID)
  
