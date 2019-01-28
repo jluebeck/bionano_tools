@@ -9,7 +9,7 @@ Usage: python convert_cmap_version.py -i input.cmap -v [version to convert to (0
 
 ```
 extract_best_aln.py
-Extracts the single best alignment[s] from an XMAP. Writes a new CMAP.
+Extracts the single best alignment[s] from an XMAP. Writes a new XMAP.
 Usage: python extract_best_aln.py -i input.xmap [-o (optional output XMAP filename)] [--each_query (flag to extract best alignment for each query)] [--each_ref (flag to extract best alignment for each reference entry)]
 ```
 
