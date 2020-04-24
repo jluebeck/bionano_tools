@@ -1,10 +1,16 @@
-## BioNano tools
-### Assorted scripts for working with BioNano data.
+## Bionano tools
+### Assorted scripts for working with Bionano data.
 
 ```
 convert_cmap_version.py
 Converts between CMAP versions. Outputs a new CMAP
 Usage: python convert_cmap_version.py -i input.cmap -v [version to convert to (0.1/0.2)] [-o optional output CMAP filename]
+```
+
+```
+extract_alignments_from_IDs.py
+Extract subset of xmap based on ID of ref, query or both.
+Usage: python extract_alignments_from_IDs.py -i input.xmap -o output_filename --r_id_list ref_ID1 refID2 ... refIDn --q_id_list qryID1 qryID2 ... qryIDn --in_both
 ```
 
 ```
@@ -15,8 +21,8 @@ Usage: python extract_best_aln.py -i input.xmap [-o (optional output XMAP filena
 
 ```
 extract_cmap.py
-Extract a single CMAP given ID. Writes a new CMAP.
-Usage: python extract_cmap.py -i input.cmap -c contig_id [-o optional output CMAP filename]
+Extract CMAP(s) given a list of IDs. Writes a new CMAP.
+Usage: python extract_cmap.py -i input.cmap -l ID1 ID2 ... IDn [-o optional output CMAP filename]
 ```
 
 ```
