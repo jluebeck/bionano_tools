@@ -6,9 +6,12 @@ UC San Diego, Bioinformatics & Systems Biology
 jluebeck@ucsd.edu
 """
 
+#Convert CMAP between version 0.1 and 0.2 (both ways allowed)
+
 import os
 import sys
 import argparse
+
 
 allowed_versions = ["0.1","0.2"]
 map_1_head_names = ["#h CMapId","ContigLength","NumSites","SiteID","LabelChannel","Position","StdDev","Coverage","Occurrence","ChimQuality"]
@@ -16,11 +19,11 @@ map_1_head_types = ["#f int","float","int","int","int","float","float","float","
 map_2_head_names = map_1_head_names + ["SegDupL","SegDupR","FragileL","FragileR","OutlierFrac","ChimNorm","Mask"]
 map_2_head_types =  map_1_head_types + ["float","float","float","float","float","float","Hex"]
 
+
 def parse_cmap(cmap_file):
 	header_lines = []
 	head_names = []
 	line_dict_vector = []
-	field_names = []
 	with open(cmap_file) as infile:
 		for line in infile:
 			if line.startswith("#"):
@@ -34,7 +37,8 @@ def parse_cmap(cmap_file):
 
 	return header_lines,line_dict_vector
 
-def write_cmap(header_lines,line_dict_vector,outname,map_head_names,map_head_types,version):
+
+def write_cmap(header_lines, line_dict_vector, outname, map_head_names, map_head_types, version):
 	with open(outname,'w') as outfile:
 		#write header
 		for line in header_lines:
@@ -71,6 +75,7 @@ def write_cmap(header_lines,line_dict_vector,outname,map_head_names,map_head_typ
 			outline+="\n"
 			outfile.write(outline)
 
+
 def check_cmap_version(cmap_file):
 	with open(cmap_file) as infile:
 		for line in infile:
@@ -84,37 +89,36 @@ def check_cmap_version(cmap_file):
 
 #Convert cmap file between versions. Currently supports 0.1 <--> 0.2 conversions.
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert BioNano CMAP file between versions. Currently supports 0.1 <--> 0.2 CMAP conversions.")
-    parser.add_argument("-i", "--input", help="Input CMAP file (file to be converted).", required=True)
-    parser.add_argument("-o", "--output", help="Filename for output converted CMAP.")
-    parser.add_argument("-v", help="CMAP version to convert input file to.",choices=allowed_versions,required=True)
+	parser = argparse.ArgumentParser(description="Convert BioNano CMAP file between versions. Currently supports 0.1 <--> 0.2 CMAP conversions.")
+	parser.add_argument("-i", "--input", help="Input CMAP file (file to be converted).", required=True)
+	parser.add_argument("-o", "--output", help="Filename for output converted CMAP.")
+	parser.add_argument("-v", help="CMAP version to convert input file to.",choices=allowed_versions,required=True)
 
-    args = parser.parse_args()
+	args = parser.parse_args()
 
-    conv_version = args.v
-    if not args.output:
-    	args.output = os.path.splitext(args.input)[0] + "_v0_" + conv_version[-1] + ".cmap"
+	conv_version = args.v
+	if not args.output:
+		args.output = os.path.splitext(args.input)[0] + "_v0_" + conv_version[-1] + ".cmap"
 
-    curr_version = check_cmap_version(args.input)
-    if not curr_version in allowed_versions:
-    	sys.stderr.write("Error: Invalid CMAP version: " + curr_version + "\n")
+	curr_version = check_cmap_version(args.input)
+	if not curr_version in allowed_versions:
+		sys.stderr.write("Error: Invalid CMAP version: " + curr_version + "\n")
 
-    elif curr_version == conv_version:
-    	sys.stdout.write("Input CMAP version (" + curr_version + ") already at desired version.\n")
+	elif curr_version == conv_version:
+		sys.stdout.write("Input CMAP version (" + curr_version + ") already at desired version.\n")
 
-    else:
-    	sys.stdout.write("Converting input CMAP to version " + conv_version)
-    	sys.stdout.write("\nConverted CMAP filename: " + args.output + "\n")
-    	#do stuff
-    	header_lines,line_dict_vector = parse_cmap(args.input)
+	else:
+		sys.stdout.write("Converting input CMAP to version " + conv_version)
+		sys.stdout.write("\nConverted CMAP filename: " + args.output + "\n")
+		#do stuff
+		header_lines,line_dict_vector = parse_cmap(args.input)
 
-    	if conv_version == "0.1":
-    		#write 0.1
-    		write_cmap(header_lines,line_dict_vector,args.output,map_1_head_names,map_1_head_types,conv_version)
+		if conv_version == "0.1":
+			#write 0.1
+			write_cmap(header_lines,line_dict_vector,args.output,map_1_head_names,map_1_head_types,conv_version)
 
-    	else:
-    		#write 0.2
-    		write_cmap(header_lines,line_dict_vector,args.output,map_2_head_names,map_2_head_types,conv_version)
+		else:
+			#write 0.2
+			write_cmap(header_lines,line_dict_vector,args.output,map_2_head_names,map_2_head_types,conv_version)
 
-
-    sys.stdout.write("CMAP conversion finished.\n")
+	sys.stdout.write("CMAP conversion finished.\n")

@@ -6,12 +6,14 @@ UC San Diego, Bioinformatics & Systems Biology
 jluebeck@ucsd.edu
 """
 
-import sys
-import os
+#Extract all molecules aligning to some region (default all) of a contig.
+#TODO: support for XMAP aligned molecules and .cmap output.
+
 import argparse
 
+
 #parses map file and extracts molecule ids aligning to particular coordinates
-def parseMapFile(fName,contID,start,end): 
+def parseMapFile(fName, contID, start, end):
 	moleculeS = set()
 	head = []
 	with open(fName) as infile:
@@ -33,8 +35,9 @@ def parseMapFile(fName,contID,start,end):
 
 	return moleculeS
 
+
 #extacts molecules from an existing file and prints them out
-def writeBNX(bnx_fname,moleculeS,outName):
+def writeBNX(bnx_fname, moleculeS, outName):
 	with open(bnx_fname) as infile, open(outName,'w') as outfile:
 		for line in infile:
 			if line.startswith("#"):
@@ -55,28 +58,27 @@ def writeBNX(bnx_fname,moleculeS,outName):
 #-contig name
 #-map file
 #-all_bnx file
-
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description="Extract aligned bionano molecules from contigs \
-    	at given reference genome positions")
+	parser = argparse.ArgumentParser(description="Extract aligned bionano molecules from contigs "
+												 "at given reference genome positions")
 	parser.add_argument("-m","--map",help="pileup map file",required=True)
 	parser.add_argument("-c","--contig",help="contig ID to get molecules from",required=True)
-	parser.add_argument("--coords",help="input contig cordinates, formatted as 'start-end', \
-    	default entire contig")
+	parser.add_argument("--coords",help="input contig cordinates, formatted as 'start-end', "
+										"default entire contig")
 	parser.add_argument("--bnx",help="merged BNX file",required=True)
 	parser.add_argument("-o","--outname",help="output filename prefix",default="")
 	args = parser.parse_args()
 
 	if not args.coords:
 		start = 0
-		end = sys.maxint
+		end = float('inf')
 
 	else:
 		start = int(args.coords.rsplit("-")[0])
 		end = int(args.coords.rsplit("-")[1])
 
-	print "searching for coords " + str(start) + " " + str(end) 
-	if end == sys.maxint:
+	print("searching for coords " + str(start) + " " + str(end))
+	if end == float('inf'):
 		region = "ALL"
 	else:
 		region = args.coords
@@ -85,8 +87,8 @@ if __name__ == "__main__":
 		args.outname+="_"
 	outName = args.outname + "extracted_molecules_" + args.contig + "_" + region + ".bnx"
 
-	print "Parsing .MAP"
+	print("Parsing .MAP")
 	moleculeS = parseMapFile(args.map,args.contig,start,end)
-	print str(len(moleculeS)) + " molecules identified aligning to query region"
-	print "Writing BNX"
+	print(str(len(moleculeS)) + " molecules identified aligning to query region")
+	print("Writing BNX")
 	writeBNX(args.bnx,moleculeS,outName)

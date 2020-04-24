@@ -9,11 +9,10 @@ jluebeck@ucsd.edu
 #Extract highest scoring alignment from .xmap file and write to file
 #multiple returned if tied
 
-import sys
-import os
 import argparse
 
-def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
+
+def find_best_aln(xmapF, xmapF_out, eachQry, eachRef):
 	bestScore = 0
 	scoreToXmapID = {}
 	queryToBestScore = {}
@@ -86,6 +85,7 @@ def find_best_aln(xmapF,xmapF_out,eachQry,eachRef):
 					for line in queryID_lines:
 						outfile.write(line)
 
+
 if __name__ == '__main__':
 	#Parses the command line arguments
 	parser = argparse.ArgumentParser(description="Extract best alignment from XMAP file")
@@ -98,7 +98,6 @@ if __name__ == '__main__':
 	outname = args.outname
 	if not outname:
 		outname = args.input[:args.input.index(".xmap")] + "_BESTALN" + args.input[args.input.index(".xmap"):]
-
 
 	find_best_aln(args.input,outname,args.each_query,args.each_ref)
  
