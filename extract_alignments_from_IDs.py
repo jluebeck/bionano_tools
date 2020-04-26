@@ -40,8 +40,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Subset of alignments from XMAP file")
     parser.add_argument("-i", "--input", help="name of input file",required=True)
     parser.add_argument("-o", "--outname", help="output XMAP filename",required=True)
-    parser.add_argument("--r_id_list", help="Ref ID numbers", nargs='+')
-    parser.add_argument("--q_id_list", help="Query ID numbers", nargs='+')
+    parser.add_argument("--r_id_list", help="Ref ID numbers", nargs='+',default=[])
+    parser.add_argument("--q_id_list", help="Query ID numbers", nargs='+',default=[])
     parser.add_argument("--in_both", help="Elements in XMAP must appear in both --r_id_list AND --q_id_list to be "
                                           "extracted. By default xmap entry must be OR, not AND",action='store_true')
     args = parser.parse_args()
