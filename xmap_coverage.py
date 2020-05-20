@@ -17,7 +17,7 @@ from collections import defaultdict
 def getCov(xmapF, contigID = None):
 	head = []
 	refLens = {}
-	# refNCounts = defaultdict(int)
+	qryLens = {}
 	refQTotLen = defaultdict(float)
 
 	with open(xmapF) as infile:
@@ -30,26 +30,38 @@ def getCov(xmapF, contigID = None):
 				fields = line.rstrip().rsplit("\t")
 				fDict = dict(zip(head, fields))
 				refID = fDict['RefContigID']
+				qryID = fDict['QryContigID']
 				if contigID and refID != contigID:
 					continue
 
 				if refID not in refLens:
 					refLens[refID] = float(fDict['RefLen'])
 
+				if qryID not in qryLens:
+					qryLens[qryID] = float(fDict['QryLen'])
+
+
+
 				alnLen = float(fDict['RefEndPos']) - float(fDict['RefStartPos'])
-				# refNCounts[refID]+=1
 				refQTotLen[refID]+=alnLen
 
 
 	refCovs = defaultdict(float)
 	totAlnLen = 0.
 	totRefLen = 0.
+	totQryLen = 0.
 	for refID, refLen in refLens.items():
 		refCovs[refID] = refQTotLen[refID]/refLen
 		totAlnLen+=refQTotLen[refID]
 		totRefLen+=refLen
 
-	return refCovs, totAlnLen/totRefLen
+	for qryID, qryLen in qryLens.items():
+		totQryLen+=qryLen
+
+	alnCov = totAlnLen/totRefLen
+	LWCov = totQryLen/totRefLen
+
+	return refCovs, alnCov, LWCov 
 
 
 if __name__ == "__main__":
@@ -60,11 +72,12 @@ if __name__ == "__main__":
 	# parser.add_argument("--bed", help="BED file of reference regions toget coverage from")
 	args = parser.parse_args()
 
-	refCovs, totCov = getCov(args.xmap, args.contig)
+	refCovs, alnCov, LWCov  = getCov(args.xmap, args.contig)
 	sortedRefIDs = sorted(refCovs.keys(), key=lambda x: int(x))
-	print("RefID\tCoverage")
+	print("RefID\tCoverage of alignments")
 	for refID in sortedRefIDs:
 		print(refID + "\t" + str(refCovs[refID]))
 
-	print("Total coverage: " + str(totCov))
+	print("Total coverage of alignments: " + str(alnCov))
+	print("Estimated reference coverage (Lander-Watterman): " + str(LWCov))
 
