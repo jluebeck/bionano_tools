@@ -1,6 +1,9 @@
 ## Bionano tools
 ### Assorted scripts for working with Bionano data.
 
+This collection of scripts does not require any additional libraries to be installed and supports both Python2 and Python3.
+
+
 ```
 convert_cmap_version.py
 Converts between CMAP versions. Outputs a new CMAP
@@ -29,6 +32,12 @@ Usage: python extract_cmap.py -i input.cmap -l ID1 ID2 ... IDn [-o optional outp
 extract_contig_aln_mols.py
 Extract all molecules aligned to a contig. Writes a BNX with relevant molecules.
 Usage: python extact_contig_aln_mols.py -m pileup_map_file.MAP -c contig_id --bnx molecule_bnx_file.BNX [--coords (coordinates on contig, formatted as start-end), default all molecules to entire contig] [-o optional output BNX filename]
+```
+
+```
+xmap_coverage.py
+Compute coverage of reference alignments in XMAP file, for all refIDs present and in total
+Usage: python xmap_coverage -x input.xmap [-c refID to get coverage for]
 ```
 
 Coming soon: ``convert_bnx_version.py`` & tools for working with BNX molecules
