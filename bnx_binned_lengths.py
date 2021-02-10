@@ -47,6 +47,7 @@ def write_bins(binsize_counts, bs, prefix):
             oline = "\t".join([str(x) for x in [le, le+bs, c]]) + "\n"
             outfile.write(oline)
 
+
 # Convert cmap file between versions. Currently supports 0.1 <--> 0.2 conversions.
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate a tabular file containing molecule counts in size windows "
@@ -56,10 +57,11 @@ if __name__ == "__main__":
                         default=5000)
 
     args = parser.parse_args()
-    print("Reading BNX file")
+    prefix = os.path.splitext(os.path.basename(args.bnx))[0]
+
+    print("Collecting molecule sizes")
     ssizes = get_mol_lens(args.bnx)
     print("Binning counts")
     binsize_counts = bin_mol_sizes(ssizes, args.s)
-    prefix = os.path.splitext(os.path.basename(args.bnx))[0]
-    write_bins(ssizes, args.s, prefix)
+    write_bins(binsize_counts, args.s, prefix)
     print("Finished")
