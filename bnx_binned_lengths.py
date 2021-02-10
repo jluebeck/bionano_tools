@@ -42,7 +42,7 @@ def bin_mol_sizes(ssizes, bs):
 
 def write_bins(binsize_counts, bs, prefix):
     with open(prefix + "_binsize_counts.tsv", 'w') as outfile:
-        outfile.write("bin_start\tnext_bin_start\tcount")
+        outfile.write("bin_start\tnext_bin_start\tcount\n")
         for le, c in binsize_counts:
             oline = "\t".join([str(x) for x in [le, le+bs, c]]) + "\n"
             outfile.write(oline)
@@ -61,7 +61,6 @@ if __name__ == "__main__":
 
     print("Collecting molecule sizes")
     ssizes = get_mol_lens(args.bnx)
-    print("Binning counts")
     binsize_counts = bin_mol_sizes(ssizes, args.s)
     write_bins(binsize_counts, args.s, prefix)
     print("Finished")
